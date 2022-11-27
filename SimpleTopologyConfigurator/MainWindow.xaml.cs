@@ -18,8 +18,15 @@ namespace SimpleTopologyConfigurator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
+        private static int routerCtr = 0;
+        private static int switchCtr = 0;
+        private static int hostCtr = 0;
+
+        private const int _IMAGE_RES = 70;
+
         Point offset;
         UIElement element = null;
         public MainWindow()
@@ -59,17 +66,30 @@ namespace SimpleTopologyConfigurator
         //adds image to the canvas
         private void image_btnClick(object sender, RoutedEventArgs e)
         {
+            Device device;
             string source = "";
             if (sender.Equals(routerBtn))
+            {
                 source = "/Res/router.png";
+                device = new Device("Router" + routerCtr, offset);
+                routerCtr++;
+            }
             else if (sender.Equals(switchBtn))
+            {
                 source = "/Res/switch.png";
+                device = new Device("Switch" + switchCtr, offset);
+                switchCtr++;
+            }
             else if (sender.Equals(hostBtn))
+            {
                 source = "/Res/host.png";
+                device = new Device("Host" + hostCtr, offset);
+                hostCtr++;
+            }
             Image image = new Image();
             image.Source = new BitmapImage(new Uri(source, UriKind.Relative));
-            image.Height = 70;
-            image.Width = 70;
+            image.Height = _IMAGE_RES;
+            image.Width = _IMAGE_RES;
             Canvas.SetTop(image, 20);
             Canvas.SetLeft(image, 20);
             image.PreviewMouseDown += UserCTLR_PreviewMouseDown;
