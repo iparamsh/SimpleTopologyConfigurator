@@ -21,9 +21,12 @@ namespace SimpleTopologyConfigurator
     /// 
     public partial class MainWindow : Window
     {
+        private bool isFirstDeviceSelected = false;
         private static int routerCtr = 0;
         private static int switchCtr = 0;
         private static int hostCtr = 0;
+        private IDictionary<string, Device> devices = new Dictionary<string, Device>();
+        string selectedElement;
 
         private const int _IMAGE_RES = 70;
 
@@ -37,11 +40,33 @@ namespace SimpleTopologyConfigurator
         //mouse down event
         private void UserCTLR_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (connectivityChkBx.IsChecked == true)
+            {
+                UserCTLR_MouseClick(sender, e);
+                return;
+            }
             this.element = sender as UIElement;
+            
             offset = e.GetPosition(this.canvas);
             this.offset.Y -= Canvas.GetTop(this.element);
             this.offset.X -= Canvas.GetLeft(this.element);
             this.canvas.CaptureMouse();
+        }
+
+        private void UserCTLR_MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            Image temp = new Image();
+            if (isFirstDeviceSelected == false)
+            {
+                temp = sender as Image;
+                selectedElement = temp.Name;
+                isFirstDeviceSelected = true;
+                return;
+            }
+            temp = sender as Image;
+            devices[selectedElement].addNeighbourDevice(temp.Name);
+            isFirstDeviceSelected=false;
+            drawLines();
         }
 
         //mouse move event
@@ -59,34 +84,48 @@ namespace SimpleTopologyConfigurator
         //mouse up event
         private void UserCTLR_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
+
+            if (this.element == null)
+                return;
+            this.offset.Y = Canvas.GetTop(this.element);
+            this.offset.X = Canvas.GetLeft(this.element);
+            Image tempImg = new Image();
+            tempImg = this.element as Image;
+            devices[tempImg.Name].changePoint(offset);
+            tempImg = null;
             this.element = null;
             canvas.ReleaseMouseCapture();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         //adds image to the canvas
         private void image_btnClick(object sender, RoutedEventArgs e)
         {
-            Device device;
+            Image image = new Image();
             string source = "";
             if (sender.Equals(routerBtn))
             {
                 source = "/Res/router.png";
-                device = new Device("Router" + routerCtr, offset);
+                image.Name = "Router" + routerCtr;
+                devices.Add(image.Name, new Device("Router" + routerCtr, offset));
                 routerCtr++;
             }
             else if (sender.Equals(switchBtn))
             {
                 source = "/Res/switch.png";
-                device = new Device("Switch" + switchCtr, offset);
+                image.Name = "Switch" + switchCtr;
+                devices.Add(image.Name, new Device("Switch" + switchCtr, offset));
                 switchCtr++;
             }
             else if (sender.Equals(hostBtn))
             {
                 source = "/Res/host.png";
-                device = new Device("Host" + hostCtr, offset);
+                image.Name = "Host" + hostCtr;
+                devices.Add(image.Name, new Device("Host" + hostCtr, offset));
                 hostCtr++;
             }
-            Image image = new Image();
+            
             image.Source = new BitmapImage(new Uri(source, UriKind.Relative));
             image.Height = _IMAGE_RES;
             image.Width = _IMAGE_RES;
@@ -94,6 +133,49 @@ namespace SimpleTopologyConfigurator
             Canvas.SetLeft(image, 20);
             image.PreviewMouseDown += UserCTLR_PreviewMouseDown;
             canvas.Children.Add(image);
+        }
+
+        private void drawLines()
+        {
+            deleteAllLines();
+            foreach(var key in devices)
+            {
+                string[] neighbours = new string[devices[key.Key].getNeighbourDeviceCount()];
+                neighbours = devices[key.Key].getNeighbours();
+                for (int i = 0; i < neighbours.Length; i++)
+                {
+                    Line myLine = new Line();
+                    myLine.Stroke = Brushes.Black;
+                    myLine.X1 = devices[key.Key].getPos().X + _IMAGE_RES / 2;
+                    myLine.X2 = devices[neighbours[i]].getPos().X  + _IMAGE_RES / 2;
+                    myLine.Y1 = devices[key.Key].getPos().Y + _IMAGE_RES / 2;
+                    myLine.Y2 = devices[neighbours[i]].getPos().Y + _IMAGE_RES / 2;
+
+                    myLine.StrokeThickness = 1;
+
+                    canvas.Children.Add(myLine);
+                }
+            }
+        }
+
+        private void deleteAllLines()
+        {
+            UIElement tempElement;
+
+            for (int ctr = 0; ctr < canvas.Children.Count; ctr++)
+            {
+                tempElement = canvas.Children[ctr];
+                if (tempElement is Line)
+                {
+                    canvas.Children.Remove(tempElement);
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Table table = new Table(devices, NetworkIPAddressTbx.Text, networkNameTbx.Text);
+            table.createTable();
         }
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SimpleTopologyConfigurator
 {
-    internal class Device
+    public class Device
     {
-        private List<string> neighbourDevice = new List<string>();
+        private List<string> neighbourDevices = new List<string>();
         private string name = "";
         private Point point;
         public Device (String name, Point point)
@@ -35,7 +35,17 @@ namespace SimpleTopologyConfigurator
 
         public void addNeighbourDevice(string name)
         {
-            neighbourDevice.Add(name);
+            neighbourDevices.Add(name);
+        }
+        
+        public int getNeighbourDeviceCount()
+        {
+            return neighbourDevices.Count;
+        }
+
+        public string[] getNeighbours()
+        {
+            return neighbourDevices.ToArray();
         }
     }
 }

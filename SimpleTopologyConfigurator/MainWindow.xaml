@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:SimpleTopologyConfigurator"
         mc:Ignorable="d"
         Background="#888888"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="900">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
@@ -50,7 +50,13 @@
             </Button.Resources>
         </Button>
 
+        <CheckBox Grid.Row="4" Grid.Column="1" x:Name="connectivityChkBx" Content="Connect" HorizontalAlignment="Center" />
         <Canvas x:Name="canvas" Background="#CACACA" Grid.Column="2" Grid.Row="1" Grid.RowSpan="4" Margin="10,0" PreviewMouseMove="canvas_PreviewMouseMove" PreviewMouseUp="UserCTLR_PreviewMouseUp"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="IP adress:" HorizontalContentAlignment="Center" Margin="0,0,0,100"/>
+        <TextBox x:Name="NetworkIPAddressTbx" Grid.Row="1" Grid.Column="3" Margin="0, 20, 0, 80"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="Network name" HorizontalContentAlignment="Center" Margin="0,45,0,0"/>
+        <TextBox x:Name="networkNameTbx" Grid.Row="1" Grid.Column="3" Margin="0, 70, 0, 30"/>
+        <Button Grid.Column="3" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Create table" Click="Button_Click"/>
     </Grid>
     
 </Window>
