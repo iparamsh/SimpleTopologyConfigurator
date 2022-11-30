@@ -17,7 +17,6 @@
     <Content Include="Res\host.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <PackageReference Include="Xceed.Words.NET" Version="2.4.22471.15220" />
     <Resource Include="Res\router.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

@@ -175,7 +175,7 @@ namespace SimpleTopologyConfigurator
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Table table = new Table(devices, NetworkIPAddressTbx.Text, networkNameTbx.Text);
-            table.createTable();
+            table.createTable(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
         }
     }
 }
