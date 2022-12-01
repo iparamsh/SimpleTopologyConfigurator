@@ -94,6 +94,7 @@ namespace SimpleTopologyConfigurator
             devices[tempImg.Name].changePoint(offset);
             tempImg = null;
             this.element = null;
+            drawLines();
             canvas.ReleaseMouseCapture();
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -125,7 +126,7 @@ namespace SimpleTopologyConfigurator
                 devices.Add(image.Name, new Device("Host" + hostCtr, offset));
                 hostCtr++;
             }
-            
+
             image.Source = new BitmapImage(new Uri(source, UriKind.Relative));
             image.Height = _IMAGE_RES;
             image.Width = _IMAGE_RES;
@@ -168,6 +169,7 @@ namespace SimpleTopologyConfigurator
                 if (tempElement is Line)
                 {
                     canvas.Children.Remove(tempElement);
+                    ctr--;
                 }
             }
         }
