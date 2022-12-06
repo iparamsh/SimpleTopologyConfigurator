@@ -19,8 +19,9 @@ Then click "Create table" button on the bottom right.
 
 ![image](https://user-images.githubusercontent.com/73321844/204693890-4e51161b-f6cb-431c-bcf1-6039ba12565d.png)
 
-If no mistakes popped out and program is still running it means that the program created a txt file of the table on your desktop
+If no mistakes popped out and program is still running it means that the program created a csv file of the table on your desktop
 
-![image](https://user-images.githubusercontent.com/73321844/204694014-3aeb4793-f46e-4b8c-bb26-3667cacb3c9c.png)
+![image](https://user-images.githubusercontent.com/73321844/205783150-2cd340c5-02cb-43da-a470-1304ba0f675b.png)
 
-![image](https://user-images.githubusercontent.com/73321844/204694233-2f863e2a-2dd7-402b-bdb4-1a8802a40fa3.png)
+![image](https://user-images.githubusercontent.com/73321844/205783015-acbe9276-5fd1-4ac8-ab4c-af5bade90243.png)
+
