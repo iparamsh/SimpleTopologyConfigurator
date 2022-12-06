@@ -28,7 +28,7 @@ namespace SimpleTopologyConfigurator
 
         private string getMask()
         {
-            if (Int16.Parse(ip.Substring(0, 3)) <= 127)
+            if (Int16.Parse(ip.Substring(0, ip.IndexOf('.'))) <= 127)
             {
                 return "255.0.0.0";
             }
@@ -45,7 +45,7 @@ namespace SimpleTopologyConfigurator
 
         public void createTable(string filePath)
         {
-            createFile(filePath);
+            /*createFile(filePath);
             string content = "";
             int ipCtr = 1;
             content += "+---------------+---------------+---------------+---------------+\n";
@@ -85,7 +85,28 @@ namespace SimpleTopologyConfigurator
                 content += "+---------------+---------------+---------------+---------------+\n";
 
                 File.WriteAllText(filePath + "\\table.txt", content);
+            }*/
+
+            createFile(filePath);
+            string content = "";
+            content += "Device Name,Network Name,IP,Subnet Mask\n";
+            int ipCtr = 1;
+            foreach (var key in devices)
+            {
+                content += devices[key.Key].getName() + ",";
+                content += name + ",";
+                if (!devices[key.Key].getName().Contains("Switch"))
+                {
+                    content += ip.Substring(0, ip.Length - 1) + ipCtr + ",";
+                    ipCtr++;
+                }
+                else
+                {
+                    content += ",";
+                }
+                content += mask + "\n";
             }
+            File.WriteAllText(filePath + "\\table.csv", content);
         }
 
         private void createFile(string filePath)
