@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SimpleTopologyConfigurator"
         mc:Ignorable="d"
         Background="#888888"
-        Title="MainWindow" Height="450" Width="900">
+        Title="MainWindow" Height="510" Width="900">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -17,6 +17,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -51,12 +53,19 @@
         </Button>
 
         <CheckBox Grid.Row="4" Grid.Column="1" x:Name="connectivityChkBx" Content="Connect" HorizontalAlignment="Center" />
-        <Canvas x:Name="canvas" Background="#CACACA" Grid.Column="2" Grid.Row="1" Grid.RowSpan="4" Margin="10,0" PreviewMouseMove="canvas_PreviewMouseMove" PreviewMouseUp="UserCTLR_PreviewMouseUp"/>
+
+        <Label Margin="0,20" Grid.Row="4" Grid.Column="1" Content="Ping:" HorizontalAlignment="Center"/>
+        <TextBox x:Name="pingTextBox" Grid.Row="5" Margin="0,-20,0,20" Grid.Column="1" FontSize="22"/>
+
+        <Canvas x:Name="canvas" Background="#CACACA" Grid.Column="2" Grid.Row="1" Grid.RowSpan="6" Margin="10,0" PreviewMouseMove="canvas_PreviewMouseMove" PreviewMouseUp="UserCTLR_PreviewMouseUp"/>
         <Label Grid.Column="3" Grid.Row="1" Content="IP adress:" HorizontalContentAlignment="Center" Margin="0,0,0,100"/>
         <TextBox x:Name="NetworkIPAddressTbx" Grid.Row="1" Grid.Column="3" Margin="0, 20, 0, 80"/>
         <Label Grid.Column="3" Grid.Row="1" Content="Network name" HorizontalContentAlignment="Center" Margin="0,45,0,0"/>
         <TextBox x:Name="networkNameTbx" Grid.Row="1" Grid.Column="3" Margin="0, 70, 0, 30"/>
         <Button Grid.Column="3" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Create table" Click="Button_Click"/>
+       
+        <CheckBox x:Name ="tracertCheckBox" Grid.Column="3" Grid.Row="5" Content="Run tracert" HorizontalAlignment="Center" Margin="0,10"/>
+        <Button Grid.Column="3" Grid.Row="4" Content="Conduct MST" HorizontalAlignment="Center" VerticalAlignment="Top"/>
     </Grid>
     
 </Window>

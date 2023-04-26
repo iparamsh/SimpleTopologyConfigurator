@@ -113,7 +113,7 @@ namespace SimpleTopologyConfigurator
         {
             if (!File.Exists(filePath))
             {
-                var myFile = File.CreateText(filePath + "\\table.txt");
+                var myFile = File.CreateText(filePath + "\\table.csv");
                 myFile.Close();
             }
         }
