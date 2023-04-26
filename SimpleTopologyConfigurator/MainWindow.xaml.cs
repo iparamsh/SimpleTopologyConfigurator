@@ -58,7 +58,6 @@ namespace SimpleTopologyConfigurator
             Image temp = new Image();
             if (isFirstDeviceSelected == false)
             {
-                temp = sender as Image;
                 selectedElement = temp.Name;
                 isFirstDeviceSelected = true;
                 return;
