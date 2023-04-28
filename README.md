@@ -1,4 +1,7 @@
 # SimpleTopologyConfigurator
+# Video tutor:
+https://youtu.be/Do92dhGRcR4
+
 Simple topology creation for simple networks
 # You MIGHT need admin root
 # How to use
