@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SimpleTopologyConfigurator"
         mc:Ignorable="d"
         Background="#888888"
-        Title="MainWindow" Height="510" Width="900">
+        Title="Network Simulation" Height="510" Width="900">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>

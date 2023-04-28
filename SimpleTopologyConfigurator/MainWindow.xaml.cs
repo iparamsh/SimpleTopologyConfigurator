@@ -164,6 +164,15 @@ namespace SimpleTopologyConfigurator
             deleteAllLines();
             foreach(var key in devices)
             {
+                //add names
+                TextBlock nameTextBlock = new TextBlock();
+                nameTextBlock = new TextBlock();
+                nameTextBlock.Text = devices[key.Key].getName();
+                Canvas.SetLeft(nameTextBlock, devices[key.Key].getPos().X + _IMAGE_RES / 4);
+                Canvas.SetTop(nameTextBlock, devices[key.Key].getPos().Y + (_IMAGE_RES));
+
+                canvas.Children.Add(nameTextBlock);
+
                 string[] neighbours = new string[devices[key.Key].getNeighbourDeviceCount()];
                 neighbours = devices[key.Key].getNeighbours();
                 for (int i = 0; i < neighbours.Length; i++)
@@ -186,7 +195,10 @@ namespace SimpleTopologyConfigurator
                     textBlock.Text = neighboursPing[i].ToString();
                     Canvas.SetLeft(textBlock, ((myLine.X1 + myLine.X2)/2));
                     Canvas.SetTop(textBlock, ((myLine.Y1 + myLine.Y2) / 2));
+
                     canvas.Children.Add(textBlock);
+
+                    
                 }
             }
         }
