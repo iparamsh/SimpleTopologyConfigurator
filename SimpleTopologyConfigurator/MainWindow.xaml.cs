@@ -15,25 +15,28 @@ using System.Windows.Shapes;
 
 namespace SimpleTopologyConfigurator
 {
-    /*
-     * TODO: import dijkstra and prim's algorithm
-     * dijkstra for most efficient ping
-     * prims for the most effective topology
-     */
+    /// <summary>
+    ///performs a network simulation and uses
+    ///dijkstras algorithm to find shortest path between two devices
+    ///also makes MST using prims algorithm to make the network more efficient
+    /// </summary>
     public partial class MainWindow : Window
     {
-        private bool isFirstDeviceSelected = false;
-        private static int routerCtr = 0; 
-        private static int switchCtr = 0;
-        private static int hostCtr = 0;
-        private IDictionary<string, Device> devices = new Dictionary<string, Device>();
-        string selectedElement;
+        private bool isFirstDeviceSelected = false; //is there any device that is currently selected
+        private static int routerCtr = 0;           //counter of routers
+        private static int switchCtr = 0;           //counter of switches
+        private static int hostCtr = 0;             //counter of hosts
+        IDictionary<string, int> deviceIndexMap = new Dictionary<string, int>();            //device and it's indexes map
+        private IDictionary<string, Device> devices = new Dictionary<string, Device>();     //all devices
+        string selectedElement;     //selected element name
+        MatrixTranslator translator = new MatrixTranslator();
         DijkstrasAlgorithm dijkstra = new DijkstrasAlgorithm();
-        MatrixTranslator translator;
+        PrimsAlgorithm prims = new PrimsAlgorithm();
 
-        private const int _IMAGE_RES = 70;
 
-        Point offset;
+        private const int _IMAGE_RES = 70;  //size of each added image
+
+        Point offset;   //device coordination
         UIElement? element = null;
         public MainWindow()
         {
@@ -55,6 +58,7 @@ namespace SimpleTopologyConfigurator
             this.canvas.CaptureMouse();
         }
 
+        //mouse click event
         private void UserCTLR_MouseClick(object sender, MouseButtonEventArgs e)
         {
             Image? temp = sender as Image;
@@ -71,10 +75,7 @@ namespace SimpleTopologyConfigurator
             }
             else
             {
-                translator = new MatrixTranslator(devices.Values.ToArray());
-                int[,] matrix = translator.GetMatrix();
-                IDictionary<string, int> deviceIndexMap = new Dictionary<string, int>();
-                deviceIndexMap = translator.getDictionary();
+                int[,] matrix = updateAndGetMatrix();
                 int[] path = dijkstra.dijkstra(translator.GetMatrix(), deviceIndexMap[selectedElement], deviceIndexMap[temp.Name]);
 
 
@@ -159,6 +160,7 @@ namespace SimpleTopologyConfigurator
             canvas.Children.Add(image);
         }
 
+        //draws all lines and other UI elements
         private void drawLines()
         {
             deleteAllLines();
@@ -202,7 +204,8 @@ namespace SimpleTopologyConfigurator
                 }
             }
         }
-
+           
+        //deletes all lines and other nesesarry UI elements
         private void deleteAllLines()
         {
             UIElement tempElement;
@@ -218,6 +221,7 @@ namespace SimpleTopologyConfigurator
             }
         }
 
+        //returns a valid device connection ping
         private int GetPingForDevice()
         {
             int ping = 0;
@@ -242,6 +246,7 @@ namespace SimpleTopologyConfigurator
             return ping;
         }
 
+        //create table button click
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Table table = new Table(devices, NetworkIPAddressTbx.Text, networkNameTbx.Text);
@@ -249,21 +254,47 @@ namespace SimpleTopologyConfigurator
             MessageBox.Show("Table is done!");
         }
 
+        //run prims algorithm button click
+        private void conductMST_buttonClick(object sender, RoutedEventArgs e)
+        {
+            int[,] matrix = updateAndGetMatrix();
+            matrix = prims.primsAlgorithm(matrix);
+
+            for (int ctr = 0; ctr < matrix.GetLength(0); ctr++)
+            {
+                for (int ctr1 = 0; ctr1 < matrix.GetLength(1); ctr1++)
+                {
+                    if (matrix[ctr, ctr1] == 0)
+                    {
+                        devices[GetKeyByValue(deviceIndexMap, ctr)].deleteNetworkConnection(GetKeyByValue(deviceIndexMap, ctr1));
+                    }
+                }
+            }
+
+            drawLines();
+        }
+
+        //updates and returns matrix
+        private int[,] updateAndGetMatrix()
+        {
+            translator.update(devices.Values.ToArray());
+            deviceIndexMap = translator.getDictionary();
+
+            return translator.GetMatrix();
+        }
+
+        //gets key by value in dictionary
         public static string GetKeyByValue(IDictionary<string, int> dictionary, int value)
         {
-            // Iterate through the dictionary and check each value
             foreach (var kvp in dictionary)
             {
                 if (EqualityComparer<int>.Default.Equals(kvp.Value, value))
                 {
-                    // Return the key when a match is found
                     return kvp.Key;
                 }
             }
 
-            // If no match is found, throw an exception or return a default value
             throw new InvalidOperationException("Value not found in dictionary");
         }
-
     }
 }

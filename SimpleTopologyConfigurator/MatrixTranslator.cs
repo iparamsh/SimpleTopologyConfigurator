@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public class MatrixTranslator
 {
-    private Dictionary<string, int> deviceIndexMap;
-    private int[,] matrix;
+    private Dictionary<string, int> deviceIndexMap; //device and it's index map
+    private int[,] matrix;                          //matrix of the graph 
 
-    public MatrixTranslator(Device[] devices)
+    //updates the matrix
+    public void update(Device[] devices)
     {
         int deviceCount = devices.Length;
         deviceIndexMap = new Dictionary<string, int>();
@@ -37,11 +38,13 @@ public class MatrixTranslator
         }
     }
 
+    //gets the device index map
     public Dictionary<string, int> getDictionary()
     {
         return deviceIndexMap;
     }
 
+    //gets matrix
     public int[,] GetMatrix()
     {
         return matrix;

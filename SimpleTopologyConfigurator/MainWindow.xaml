@@ -65,7 +65,7 @@
         <Button Grid.Column="3" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Create table" Click="Button_Click"/>
        
         <CheckBox x:Name ="tracertCheckBox" Grid.Column="3" Grid.Row="5" Content="Run tracert" HorizontalAlignment="Center" Margin="0,10"/>
-        <Button Grid.Column="3" Grid.Row="4" Content="Conduct MST" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Button Grid.Column="3" Grid.Row="4" Content="Conduct MST" HorizontalAlignment="Center" VerticalAlignment="Top" Click="conductMST_buttonClick"/>
     </Grid>
     
 </Window>
