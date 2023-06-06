@@ -29,6 +29,8 @@ namespace SimpleTopologyConfigurator
         IDictionary<string, int> deviceIndexMap = new Dictionary<string, int>();            //device and it's indexes map
         private IDictionary<string, Device> devices = new Dictionary<string, Device>();     //all devices
         string selectedElement;     //selected element name
+
+        //accessors
         MatrixTranslator translator = new MatrixTranslator();
         DijkstrasAlgorithm dijkstra = new DijkstrasAlgorithm();
         PrimsAlgorithm prims = new PrimsAlgorithm();
@@ -199,8 +201,6 @@ namespace SimpleTopologyConfigurator
                     Canvas.SetTop(textBlock, ((myLine.Y1 + myLine.Y2) / 2));
 
                     canvas.Children.Add(textBlock);
-
-                    
                 }
             }
         }
